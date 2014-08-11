@@ -1,0 +1,193 @@
+pyzmq (14.3.1-2+leap) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Link against libsodium-enabled libzmq3
+
+ -- Ben Carrillo <ben@futeisha.org>  Fri, 08 Aug 2014 19:31:53 -0500
+
+pyzmq (14.3.1-1) unstable; urgency=medium
+
+  * New upstream release
+  * monitor-test.patch: fix test logic for synchronous connects on freebsd
+  * ignore test results on mips, hard to debug race condition, no reason to
+    delay testing migration (Closes: #750813)
+
+ -- Julian Taylor <jtaylor.debian@googlemail.com>  Tue, 17 Jun 2014 23:23:35 +0200
+
+pyzmq (14.3.0-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Julian Taylor <jtaylor.debian@googlemail.com>  Wed, 14 May 2014 21:27:23 +0200
+
+pyzmq (14.2.0-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Julian Taylor <jtaylor.debian@googlemail.com>  Sat, 03 May 2014 17:45:57 +0200
+
+pyzmq (14.1.1-1) unstable; urgency=medium
+
+  * New upstream release
+    - drop upstream applied cython-error.patch
+  * fix minitornado copyright information
+    thanks to Thorsten Alteholz for the report
+  * bump pypy build dependency to 2.2, required for cffi patch to work.
+
+ -- Julian Taylor <jtaylor.debian@googlemail.com>  Fri, 04 Apr 2014 16:33:57 +0200
+
+pyzmq (14.0.1-1) unstable; urgency=low
+
+  * New upstream release
+    drop upstream applied workaround-gevent.patch
+  * cython-error.patch: fix use-after-free due to wrong cython use
+  * provide pypy-zmq package
+  * build package with pybuild
+  * bump cython build depend version to required >= 0.16 (Closes: #721711)
+  * run nose with zmq.tests to avoid autopkgtest issues if optional
+    dependencies are missing
+  * bump X-Python-Version to >= 2.6 as required by 0.13.x
+  * bump debhelper to >= 8.1~ for build-arch support
+  * remove Miguel Landaeta from Uploaders. (Closes: #728413)
+    Thank you for your work.
+  * bump standard to 3.9.5, no changes required
+
+ -- Julian Taylor <jtaylor.debian@googlemail.com>  Sat, 04 Jan 2014 22:24:19 +0100
+
+pyzmq (13.1.0-1) unstable; urgency=low
+
+  * New upstream release built with zeromq3 (Closes: #698830)
+    - drop all patches
+  * workaround-gevent.patch: workaround issue with gevent < 1.0
+  * noncopysend-test.patch: avoid uninitialized values in tests
+  * update copyright
+
+ -- Julian Taylor <jtaylor.debian@googlemail.com>  Sun, 12 May 2013 13:59:20 +0200
+
+pyzmq (2.2.0.1-2) unstable; urgency=low
+
+  [ Julian Taylor ]
+  * upload to unstable
+  * python-gevent-dbg is fixed, enable python2 dbg autopkgtests
+  * cython0.19-compat.patch: fix build with cython 0.19
+
+  [ Jakub Wilk ]
+  * Use canonical URIs for Vcs-* fields.
+
+ -- Julian Taylor <jtaylor.debian@googlemail.com>  Thu, 09 May 2013 15:07:29 +0200
+
+pyzmq (2.2.0.1-1) experimental; urgency=low
+
+  * New upstream release
+  * relicense debian packaging to LGPL-3
+  * update watch file to use github directly
+    thanks to Bart Martens for the file
+  * add autopkgtests
+  * drop obsolete DM-Upload-Allowed
+  * bump standard to 3.9.4, no changes required
+
+ -- Julian Taylor <jtaylor.debian@googlemail.com>  Sun, 24 Feb 2013 19:23:15 +0100
+
+pyzmq (2.2.0-1) unstable; urgency=low
+
+  [ Julian Taylor ]
+  * New upstream release
+  * update debian/copyright for relicensing of non core files to BSD-3-clause
+  * bump standard to 3.9.3, no changes required
+  * build with hardening flags
+
+  [ Bernd Zeimetz ]
+  * Set DM-Upload-Allowed: yes
+
+ -- Julian Taylor <jtaylor.debian@googlemail.com>  Sun, 20 May 2012 17:41:34 +0200
+
+pyzmq (2.1.11-1) unstable; urgency=low
+
+  [ Julian Taylor ]
+  * New upstream release (Closes: #655793)
+  * added myself to Uploaders
+  * properly clean to allow building twice in a row
+  * ignore testsuite result due to random failures on armel and mips
+    probably caused by libzmq or toolchain
+  * add Python3 to short description of py3 packages
+  * wrap-and-sort debian/
+  * add python-nose to build depends to get better test result output
+  * add python-numpy to build depends to get more tests
+  * use githubredir.debian.net in debian/watch
+
+ -- Julian Taylor <jtaylor.debian@googlemail.com>  Sun, 19 Feb 2012 14:53:20 +0100
+
+pyzmq (2.1.10-2) unstable; urgency=low
+
+  [ Julian Taylor ]
+  * remove python:Provides, python:Breaks and XB-Python-Version
+    not needed with dh_python2
+  * bump python dependency to >= 2.6.6-3~ for dh_python2
+  * do not delete *_d.so files from lib/debug in python-zmq-dbg
+    - needed for gdb when using debug interpreter
+  * fix dep5 copyright syntax error
+  * add python3 packages (Closes: #636484)
+  * add a directory existance check to clean target to allow build with
+    git-buildpackage --git-overlay
+
+ -- Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>  Mon, 05 Dec 2011 21:42:24 +0100
+
+pyzmq (2.1.10-1) unstable; urgency=low
+
+  * New upstream version
+  * Build-depend on zeromq 2.1.10
+
+ -- Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>  Tue, 22 Nov 2011 14:54:20 +0100
+
+pyzmq (2.1.9-1) unstable; urgency=low
+
+  * New upstream version
+    - should build on kFreeBSD without patches (Closes: #637777).
+  * Build-depend on zeromq 2.1.9
+
+ -- Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>  Fri, 23 Sep 2011 00:16:39 +0200
+
+pyzmq (2.1.7-1) unstable; urgency=low
+
+  [ Bernd Zeimetz ]
+  * New upstream version.
+  * Build-depend on zeromq 2.1.7.
+  * Bump Standards-Version to 3.9.2, no changes needed.
+  * Remove all .pyc and .so files during clean. 
+
+  [ Miguel Landaeta ]
+  * Update copyright dates and make it DEP-5 compliant.
+  * Refresh patches.
+  * Enable build-time tests.
+
+ -- Miguel Landaeta <miguel@miguel.cc>  Mon, 23 May 2011 08:57:59 +0200
+
+pyzmq (2.0.10.1-2) unstable; urgency=low
+
+  * Team upload.
+  * Upload to unstable
+  * Add Breaks: ${python:Breaks}
+
+ -- Piotr Ożarowski <piotr@debian.org>  Tue, 15 Feb 2011 09:08:36 +0100
+
+pyzmq (2.0.10.1-1) experimental; urgency=low
+
+  * New upstream release.
+  * Migrate to dh_python2 and drop Build-Depends on python-support.
+  * Fix typo in package descriptions.
+
+ -- Miguel Landaeta <miguel@miguel.cc>  Thu, 03 Feb 2011 13:50:00 -0430
+
+pyzmq (2.0.10-1) experimental; urgency=low
+
+  * New upstream release.
+    - cpython minimum build version bumped to 0.13
+  * Add watch file.
+
+ -- Miguel Landaeta <miguel@miguel.cc>  Wed, 17 Nov 2010 16:14:17 -0430
+
+pyzmq (0.1.20100703+git18f5d06155-1) unstable; urgency=low
+
+  * Initial release. (Closes: #590633)
+
+ -- Miguel Landaeta <miguel@miguel.cc>  Wed, 08 Sep 2010 13:50:41 -0430

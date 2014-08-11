@@ -1,0 +1,8 @@
+Tests: python2
+Depends: python-all, python-all-dbg, python-zmq, python-zmq-dbg, python-nose, python-numpy-dbg, python-numpy, python-tornado, python-gevent, python-gevent-dbg
+
+Tests: python3
+Depends: python3-all, python3-all-dbg, python3-zmq, python3-zmq-dbg, python3-nose, python3-numpy, python3-numpy-dbg, python3-tornado
+
+Tests: pypy
+Depends: pypy, pypy-zmq

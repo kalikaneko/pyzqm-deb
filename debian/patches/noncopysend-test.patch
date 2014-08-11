@@ -1,0 +1,20 @@
+Description: don't use uninitialized memory for test
+ the memory could contain signalling NaN which crashes sparc python
+Author: Julian Taylor <jtaylor.debian@googlemail.com>
+Forwarded: not-needed
+
+--- a/zmq/tests/test_message.py
++++ b/zmq/tests/test_message.py
+@@ -324,10 +324,8 @@ class TestFrame(BaseZMQTestCase):
+         for i in range(1,len(shapes)+1):
+             shape = shapes[:i]
+             for dt in dtypes:
+-                A = numpy.empty(shape, dtype=dt)
+-                while numpy.isnan(A).any():
+-                    # don't let nan sneak in
+-                    A = numpy.ndarray(shape, dtype=dt)
++                A = numpy.random.uniform(-10000000,
++                                         1000000, size=shape).astype(dt)
+                 a.send(A, copy=False)
+                 msg = b.recv(copy=False)
+                 

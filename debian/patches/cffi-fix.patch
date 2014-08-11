@@ -1,0 +1,69 @@
+Description: check package root for cffi binaries
+ cffi checks __pycache__ for binaries which is cleaned by pypy installation so
+ packages can't ship in there.
+ Instead ship in package root and patch module finding to look in there.
+ Also use fixed path in a place passed to cffi to get the same checksum
+ in build and install. After it is installed no build is needed so it doesn't
+ matter if its wrong.
+ This patch assumes pypy 2.2 api, won't work with 2.1 as so_suffices is no
+ list.
+Bug: https://bitbucket.org/cffi/cffi/issue/109/enable-sane-packaging-for-cffi
+
+--- a/zmq/backend/cffi/__init__.py
++++ b/zmq/backend/cffi/__init__.py
+@@ -3,6 +3,40 @@
+ # Copyright (C) PyZMQ Developers
+ # Distributed under the terms of the Modified BSD License.
+ 
++import imp
++import os.path
++import sys
++
++import cffi.vengine_cpy
++import cffi.vengine_gen
++_ma_triplet = None
++
++def vengine_gen_find_module(self, module_name, path, so_suffixes):
++    global _ma_triplet
++    if _ma_triplet is None:
++        try:
++            import subprocess as sp
++            p = sp.Popen(["gcc", "-print-multiarch"], stdout=sp.PIPE)
++            _ma_triplet = str(p.communicate()[0].decode().strip())
++        except:
++            import warnings
++            warnings.warn('failed to detect multiarch paths, please install gcc')
++
++    for so_suffix in so_suffixes + ['.%s-%s.so' % (imp.get_tag(), _ma_triplet)]:
++        basename = module_name + so_suffix
++        if path is None:
++            path = sys.path
++            # import from non root package would try __pycache__ which is
++            # cleaned by pypy installation
++            path.insert(0, "/usr/lib/pypy/dist-packages/zmq/backend/cffi")
++        for dirname in path:
++            filename = os.path.join(dirname, basename)
++            if os.path.isfile(filename):
++                return filename
++
++
++cffi.vengine_gen.VGenericEngine.find_module = vengine_gen_find_module
++
+ from zmq.backend.cffi import (constants, error, message, context, socket,
+                            _poll, devices, utils)
+ 
+--- a/zmq/backend/cffi/_cffi.py
++++ b/zmq/backend/cffi/_cffi.py
+@@ -106,10 +106,10 @@ int get_ipc_path_max_len(void);
+ 
+ def load_compiler_config():
+     import zmq
+-    zmq_dir = dirname(zmq.__file__)
++    zmq_dir = "zmq"
+     zmq_parent = dirname(zmq_dir)
+     
+-    fname = join(zmq_dir, 'utils', 'compiler.json')
++    fname = join(dirname(zmq.__file__), 'utils', 'compiler.json')
+     if os.path.exists(fname):
+         with open(fname) as f:
+             cfg = json.load(f)

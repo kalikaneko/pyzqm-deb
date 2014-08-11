@@ -1,0 +1,7 @@
+#!/bin/sh
+set -efu
+
+cd "$ADTTMP"
+
+echo "=== pypy ==="
+pypy -m unittest discover -v -s $(pypy -c "import zmq, os; print os.path.dirname(zmq.__file__)") 2>&1
