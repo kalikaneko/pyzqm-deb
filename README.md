@@ -1,3 +1,7 @@
+Debian package for python-zmq, linked against a libsodium-enabled libzmq.
+
+This is temporarily needed by the LEAP project, until libsodium is added to official debian/ubuntu repos for the versions we support.
+
 # PyZMQ: Python bindings for ØMQ
 
 [![Build Status](https://travis-ci.org/zeromq/pyzmq.svg?branch=master)](https://travis-ci.org/zeromq/pyzmq)
